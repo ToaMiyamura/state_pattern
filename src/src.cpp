@@ -1,25 +1,78 @@
 #include <iostream>
 #include <thread>
 
-int main()
+class State {
+public:
+    virtual void pattern() {
+
+    }
+};
+
+class Credit :public State
 {
-repeat:
-    std::cout << "credit\n";
+public:
 
-    std::this_thread::sleep_for(std::chrono::seconds(3));// 3 秒待つ
+    void pattern() {
+        std::cout << "credit\n";
 
-    std::cout << "title\n";
+        std::this_thread::sleep_for(std::chrono::seconds(3));// 3 秒待つ
+    }
+};
 
-    std::this_thread::sleep_for(std::chrono::seconds(3));// 3 秒待つ
+class Title :public State {
+public:
+    void pattern() {
+        std::cout << "title\n";
 
-    std::cout << "opening\n";
+        std::this_thread::sleep_for(std::chrono::seconds(3));// 3 秒待つ
+    }
+};
 
-    std::this_thread::sleep_for(std::chrono::seconds(5));// 5 秒待つ
+class Opening :public State
+{
+public:
 
-    std::cout << "demo\n";
+    void pattern() {
+        std::cout << "opening\n";
 
-    std::this_thread::sleep_for(std::chrono::seconds(5));// 5 秒待つ
+        std::this_thread::sleep_for(std::chrono::seconds(5));// 5 秒待つ
+    }
+};
+
+class Demo :public State {
+public:
+    void pattern() {
+
+        std::cout << "demo\n";
+
+        std::this_thread::sleep_for(std::chrono::seconds(5));// 5 秒待つ
+    }
+};
     
-    goto repeat;
+class Context {
+public:
+
+    void pattern() {
+        Credit credit;
+        Title title;
+        Opening opening;
+        Demo demo;
+
+        credit.pattern();
+        title.pattern();
+        opening.pattern();
+        demo.pattern();
+    }
+};
+
+int main() {
+
+    Context context;
+
+    do {
+        context.pattern();
+
+    } while (true);
+    
 }
 
